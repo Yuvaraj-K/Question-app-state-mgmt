@@ -1,0 +1,33 @@
+mat-card-content:last-child, mat-card:last-child{
+  margin-bottom: 15px;
+}
+mat-card-content:first-child, mat-card:first-child{
+  margin-top: 15px;
+}
+mat-card {
+  margin: 15px;
+}
+.question-card {
+  width: 400px;
+  min-width: 350px;
+  // background: #ae00ff36;
+  box-shadow: inset #495580 0px -1px 8.5px 0.5px
+}
+.page-action {
+  display: inline-block;
+  background: #a0d0adb8;
+  position: fixed;
+  top: 40px;
+  right: 30px;
+}
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-chip{
+  background-color: darkgray;
+}
+
+.correct{
+  color: green;
+}

@@ -1,0 +1,47 @@
+import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from "@angular/common/http";
+import { forkJoin, of, throwError } from 'rxjs';
+
+
+import '../rxjs-extensions';
+
+import { Question, Category } from '../model';
+import { CategoryService } from './category.service';
+
+
+@Injectable()
+export class QuestionService {
+  private _serviceUrl = 'http://localhost:3000/questions';  // URL to web api
+
+  constructor(private http: HttpClient,
+    private categoryService: CategoryService) {
+  }
+
+
+  getQuestions(): Observable<Question[]> {
+
+    let url = this._serviceUrl; 
+
+    return forkJoin(
+      this.http.get(url).map<any,Question[]>((res) => res),
+      this.categoryService.getCategories())
+    .map((combined, index) => {
+      let questions: Question[] = combined[0];
+      let categories: Category[] = combined[1];
+      questions.forEach(q => {
+        q.categories = [];
+        q.categoryIds.forEach(id => q.categories.push(categories.find(element => element.id == id)))
+      })
+      return questions;
+    })
+  }
+
+  saveQuestion(question: Question): Observable<any> {
+    let url = this._serviceUrl;
+
+    return this.http.post(url, question).map(res => res);
+  }
+
+}
